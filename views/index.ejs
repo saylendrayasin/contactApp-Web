@@ -1,0 +1,11 @@
+<h1>Web Server ExpressJS</h1>
+<h2>Hai... <%= nama %></h2>
+<h4>Daftar Mahasiswa :</h4>
+
+<% if (mahasiswa.length < 1) { %>
+<h3>Data mahasiswa kosong</h3>
+<% } else { %> <% mahasiswa.forEach(element => { %>
+<ul>
+  <li>Nama : <%= element.nama %>, Email : <%= element.email %></li>
+</ul>
+<% }) %> <% } %>
