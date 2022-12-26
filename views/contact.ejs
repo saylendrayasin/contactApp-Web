@@ -12,14 +12,25 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <% contact.forEach((element, index )=> { index++ %>
+          <% if (contact.length === 0) { %>
+          <tr>
+            <td colspan="4">
+              <div class="alert alert-danger fw-bold" role="alert">
+                Data contact kosong.
+              </div>
+            </td>
+          </tr>
+          <% } %> <% contact.forEach((element, index )=> { index++ %>
           <tr>
             <th scope="row"><%= index++ %></th>
             <td><%= element.Nama %></td>
             <td><%= element.NoHP %></td>
 
             <td>
-              <a href="" class="btn btn-success badge badge-success">
+              <a
+                href="/contact/<%= element.Nama %>"
+                class="btn btn-success badge badge-success"
+              >
                 <i class="bi bi-info-circle"></i> detail</a
               >
             </td>
