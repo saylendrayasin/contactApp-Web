@@ -2,12 +2,18 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const PORT = 3000;
-const { loadContact, findContact, addContact } = require("./utils/contacts");
+const {
+  loadContact,
+  findContact,
+  addContact,
+  cekDuplikat,
+} = require("./utils/contacts");
+const { body, validationResult, check } = require("express-validator");
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.static("public"));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 //Menampilkan halaman root
 app.get("/", (req, res) => {
@@ -60,16 +66,31 @@ app.get("/contact/add", (req, res) => {
 });
 
 //Proses data contact
-app.post("/contact", (req, res) => {
-  const object = req.body;
-  object.Nama = object.firstName + " " + object.lastName;
-  //Hapus properti firstName dan lastName
-  delete object.firstName;
-  delete object.lastName;
+app.post(
+  "/contact",
+  [
+    check("Email", "Email tidak valid!").isEmail(),
+    check("NoHP", "Nomor HP tidak valid!").isMobilePhone("id-ID"),
+    body("Nama").custom((value) => {
+      const duplikat = cekDuplikat(value);
+      if (duplikat) {
+        throw new Error("Nama yang anda masukkan sudah ada!");
+      } else {
+        return true;
+      }
+    }),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    // console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  addContact(object);
-  res.redirect("/contact");
-});
+    addContact(req.body);
+    res.redirect("/contact");
+  }
+);
 
 //Menampilkan halaman untuk melihat detail contact
 app.get("/contact/:nama", (req, res) => {
