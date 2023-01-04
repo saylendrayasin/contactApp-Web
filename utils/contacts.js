@@ -1,5 +1,6 @@
 //import package
 const fs = require("fs");
+const path = require("path");
 
 //Cek dan create folder data
 const pathDir = "./data";
@@ -29,4 +30,16 @@ const findContact = (nama) => {
   return contact;
 };
 
-module.exports = { loadContact, findContact };
+//menuliskan atau menimpah file contacts.json dengan data yang baru
+const saveContact = (contacts) => {
+  fs.writeFileSync(pathContacts, JSON.stringify(contacts));
+};
+
+//menambahkan contact baru
+const addContact = (contact) => {
+  const newContacts = loadContact();
+  newContacts.push(contact);
+  saveContact(newContacts);
+};
+
+module.exports = { loadContact, findContact, addContact };

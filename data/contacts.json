@@ -1,1 +1,8 @@
-[{ "Nama": "Sayelndra", "NoHP": "08122211", "Email": "sayel@gmail.com" }]
+[
+  { "Nama": "Sayelndra", "NoHP": "08122211", "Email": "sayel@gmail.com" },
+  {
+    "NoHP": "081241924509",
+    "Email": "saylendrayasin@gmail.com",
+    "Nama": "Saylendra Yasin"
+  }
+]
