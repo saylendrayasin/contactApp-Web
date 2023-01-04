@@ -1,0 +1,61 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Form Tambah Contact</h2>
+
+      <form
+        method="post"
+        action="/contact"
+        class="row g-3 mt-3 border px-2 pb-3 rounded-4"
+      >
+        <div class="col-md-6">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            required
+          />
+        </div>
+        <div class="col-12">
+          <label for="NoHP" class="form-label">Nomor HP</label>
+          <input
+            type="text"
+            class="form-control"
+            id="NoHP"
+            placeholder="ID-id"
+            name="NoHP"
+            required
+          />
+        </div>
+        <div class="col-12">
+          <label for="Email" class="form-label">Email</label>
+          <input
+            type="Email"
+            class="form-control"
+            id="Email"
+            placeholder="example@gmail.com"
+            name="Email"
+            required
+          />
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">
+            Tambah Data Contact
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
