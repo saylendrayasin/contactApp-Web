@@ -47,6 +47,13 @@ app.get("/contact", (req, res) => {
   });
 });
 
+app.get("/contact/add", (req, res) => {
+  res.render("addContact", {
+    title: "Addcontatpage",
+    layout: "layouts/main-layout.ejs",
+  });
+});
+
 app.get("/contact/:nama", (req, res) => {
   const contact = findContact(req.params.nama);
   res.render("detail", {
