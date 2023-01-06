@@ -9,11 +9,26 @@ const {
   cekDuplikat,
 } = require("./utils/contacts");
 const { body, validationResult, check } = require("express-validator");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+
+//Konfigurasi flash session
+app.use(cookieParser("secret"));
+app.use(
+  session({
+    cookie: { maxAge: 5000 },
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 
 //Menampilkan halaman root
 app.get("/", (req, res) => {
@@ -54,6 +69,7 @@ app.get("/contact", (req, res) => {
     layout: "layouts/main-layout.ejs",
     title: "Contactpage",
     contact: contacts,
+    msg: req.flash("msg"),
   });
 });
 
@@ -69,8 +85,6 @@ app.get("/contact/add", (req, res) => {
 app.post(
   "/contact",
   [
-    check("Email", "Email tidak valid!").isEmail(),
-    check("NoHP", "Nomor HP tidak valid!").isMobilePhone("id-ID"),
     body("Nama").custom((value) => {
       const duplikat = cekDuplikat(value);
       if (duplikat) {
@@ -79,16 +93,24 @@ app.post(
         return true;
       }
     }),
+    check("NoHP", "Nomor HP tidak valid!").isMobilePhone("id-ID"),
+    check("Email", "Email tidak valid!").isEmail(),
   ],
   (req, res) => {
     const errors = validationResult(req);
     // console.log(errors);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      res.render("addContacts", {
+        title: "Addcontactpage",
+        layout: "layouts/main-layout.ejs",
+        errors: errors.array(),
+      });
+    } else {
+      addContact(req.body);
+      //Kirim flash message
+      req.flash("msg", "Data contact berhasil ditambahkan!");
+      res.redirect("/contact");
     }
-
-    addContact(req.body);
-    res.redirect("/contact");
   }
 );
 

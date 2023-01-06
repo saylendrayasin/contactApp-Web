@@ -3,6 +3,16 @@
     <div class="col-md-6">
       <h2>Form Tambah Contact</h2>
 
+      <% if (typeof errors != 'undefined') { %>
+      <div class="alert alert-danger" role="alert">
+        <ul>
+          <% errors.forEach(err => { %>
+          <li><%= err.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
+
       <form
         method="post"
         action="/contact"

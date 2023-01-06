@@ -4,8 +4,13 @@
       <h2>Daftar Contact</h2>
 
       <a href="/contact/add" class="btn btn-primary my-3 p-1"
-        >Tambah Data Contact</a
-      >
+        >Tambah Data Contact
+      </a>
+
+      <% if (msg.length !== 0 ) { %>
+      <div class="alert alert-success" role="alert"><%= msg %></div>
+      <% } %>
+
       <table class="table">
         <thead>
           <tr>
