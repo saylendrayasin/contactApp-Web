@@ -7,6 +7,7 @@ const {
   findContact,
   addContact,
   cekDuplikat,
+  deleteContact,
 } = require("./utils/contacts");
 const { body, validationResult, check } = require("express-validator");
 const session = require("express-session");
@@ -113,6 +114,22 @@ app.post(
     }
   }
 );
+
+//Delete contact
+app.get("/contact/delete/:nama", (req, res) => {
+  const contact = findContact(req.params.nama);
+
+  //cek kontak
+  if (!contact) {
+    res.status(404);
+    res.send("<h1> 404 </h1>");
+  } else {
+    deleteContact(req.params.nama);
+    //Kirim flash message
+    req.flash("msg", "Data contact berhasil dihapus!");
+    res.redirect("/contact");
+  }
+});
 
 //Menampilkan halaman untuk melihat detail contact
 app.get("/contact/:nama", (req, res) => {

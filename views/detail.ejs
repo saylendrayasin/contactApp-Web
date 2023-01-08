@@ -15,7 +15,13 @@
           <h5 class="card-title"><%= contact.Nama %></h5>
           <h6 class="card-subtitle mb-2 text-muted"><%= contact.NoHP %></h6>
           <p class="card-text"><%= contact.Email %></p>
-          <a href="/contact" class="card-link"
+          <a
+            href="/contact/delete/<%=contact.Nama%>"
+            class="btn btn-danger badge"
+            onclick="return confirm('Anda yakin ingin menghapus data ini?')"
+            >Hapus</a
+          >
+          <a href="/contact" class="card-link d-block mt-3"
             >&laquo; Kembali ke daftar contact</a
           >
         </div>
