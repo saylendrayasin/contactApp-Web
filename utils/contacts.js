@@ -56,10 +56,23 @@ const deleteContact = (nama) => {
   saveContact(filteredContact);
 };
 
+//edit contact
+const updateContacts = (newContacts) => {
+  const contacts = loadContact();
+  //Hilangkan kontak lama yang sama dengan nama lama
+  const filteredContact = contacts.filter(
+    (contact) => contact.Nama !== newContacts.NamaOld
+  );
+  delete newContacts.NamaOld;
+  filteredContact.push(newContacts);
+  saveContact(filteredContact);
+};
+
 module.exports = {
   loadContact,
   findContact,
   addContact,
   cekDuplikat,
   deleteContact,
+  updateContacts,
 };

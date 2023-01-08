@@ -8,6 +8,7 @@ const {
   addContact,
   cekDuplikat,
   deleteContact,
+  updateContacts,
 } = require("./utils/contacts");
 const { body, validationResult, check } = require("express-validator");
 const session = require("express-session");
@@ -110,6 +111,56 @@ app.post(
       addContact(req.body);
       //Kirim flash message
       req.flash("msg", "Data contact berhasil ditambahkan!");
+      res.redirect("/contact");
+    }
+  }
+);
+
+//Edit contact
+app.get("/contact/edit/:nama", (req, res) => {
+  const contact = findContact(req.params.nama);
+
+  if (!contact) {
+    res.status(404);
+    res.send("<h1>404</h1>");
+  } else {
+    res.render("editContacts", {
+      title: "Editcontatpage",
+      layout: "layouts/main-layout.ejs",
+      contact,
+    });
+  }
+});
+
+//Update contact
+app.post(
+  "/contact/update",
+  [
+    body("Nama").custom((value, { req }) => {
+      const duplikat = cekDuplikat(value);
+      if (value !== req.body.NamaOld && duplikat) {
+        throw new Error("Nama yang anda masukkan sudah ada!");
+      } else {
+        return true;
+      }
+    }),
+    check("NoHP", "Nomor HP tidak valid!").isMobilePhone("id-ID"),
+    check("Email", "Email tidak valid!").isEmail(),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    // console.log(errors);
+    if (!errors.isEmpty()) {
+      res.render("editContacts", {
+        title: "Editcontactpage",
+        layout: "layouts/main-layout.ejs",
+        errors: errors.array(),
+        contact: req.body,
+      });
+    } else {
+      updateContacts(req.body);
+      //Kirim flash message
+      req.flash("msg", "Data contact berhasil diubah!");
       res.redirect("/contact");
     }
   }
