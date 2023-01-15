@@ -1,11 +1,16 @@
 const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
+
+require("./utils/db");
+const Contact = require("./models/contact");
+
 const PORT = 3000;
 const { body, validationResult, check } = require("express-validator");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
+const { findOne } = require("./models/contact");
 
 //Konfigurasi ejs-layouts
 app.set("view engine", "ejs");
@@ -58,7 +63,8 @@ app.get("/about", (req, res) => {
 });
 
 //Menampilkan halaman contact
-app.get("/contact", (req, res) => {
+app.get("/contact", async (req, res) => {
+  const contacts = await Contact.find();
   res.render("contact", {
     layout: "layouts/main-layout.ejs",
     title: "Contactpage",
@@ -175,8 +181,8 @@ app.get("/contact/delete/:nama", (req, res) => {
 });
 
 //Menampilkan halaman untuk melihat detail contact
-app.get("/contact/:nama", (req, res) => {
-  const contact = findContact(req.params.nama);
+app.get("/contact/:nama", async (req, res) => {
+  const contact = await Contact.findOne({ Nama: req.params.nama });
   res.render("detail", {
     layout: "layouts/main-layout.ejs",
     title: "Detailcontactpage",
