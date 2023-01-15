@@ -18,12 +18,16 @@
           <a href="/contact/edit/<%=contact.Nama%>" class="btn btn-info badge"
             >Ubah</a
           >
-          <a
-            href="/contact/delete/<%=contact.Nama%>"
-            class="btn btn-danger badge"
-            onclick="return confirm('Anda yakin ingin menghapus data ini?')"
-            >Hapus</a
-          >
+          <form action="/contact?_method=DELETE" method="POST" class="d-inline">
+            <input type="hidden" name="Nama" value="<%= contact.Nama %>" />
+            <button
+              type="submit"
+              class="btn btn-danger badge"
+              onclick="return confirm('Anda yakin ingin menghapus data ini?')"
+            >
+              Hapus
+            </button>
+          </form>
           <a href="/contact" class="card-link d-block mt-3"
             >&laquo; Kembali ke daftar contact</a
           >
