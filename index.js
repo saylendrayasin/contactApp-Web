@@ -2,19 +2,12 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const PORT = 3000;
-const {
-  loadContact,
-  findContact,
-  addContact,
-  cekDuplikat,
-  deleteContact,
-  updateContacts,
-} = require("./utils/contacts");
 const { body, validationResult, check } = require("express-validator");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 
+//Konfigurasi ejs-layouts
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.static("public"));
@@ -66,7 +59,6 @@ app.get("/about", (req, res) => {
 
 //Menampilkan halaman contact
 app.get("/contact", (req, res) => {
-  const contacts = loadContact();
   res.render("contact", {
     layout: "layouts/main-layout.ejs",
     title: "Contactpage",
